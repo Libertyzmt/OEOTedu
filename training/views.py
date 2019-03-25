@@ -92,7 +92,7 @@ def course_delete(request, id):
 
 
 def company(request):
-    company = Company.objects.all()
+    company = Company.objects.first()
     return render(request, 'training/company.html', {'company': company})
 
 
