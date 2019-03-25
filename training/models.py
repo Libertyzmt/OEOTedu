@@ -101,6 +101,9 @@ class Course(models.Model):
 class Duty(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 # 考勤信息
 class Note(models.Model):
@@ -117,7 +120,7 @@ class Post(models.Model):
     content = models.TextField()
     auth = models.ForeignKey(Profile, on_delete=models.CASCADE,
                              related_name='posts')
-    publish = models.DateTimeField(default=timezone.now())
+    publish = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.title

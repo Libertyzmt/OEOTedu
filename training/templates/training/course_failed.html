@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if request.user.profile.job == 'staff' %}
+    <h3>时间段冲突！请修改课程时间！！</h3>
+    <a href="{% url 'courses_list' %}">返回课程列表页</a>
+{% else %}
+    <h3>时间段冲突！请重新报名！！</h3>
+    <a href="{% url 'courses_list' %}">返回课程列表页</a>
+{% endif %}
+
+</body>
+</html>

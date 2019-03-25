@@ -5,23 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-{% for all_cours in all_courses %}
-    <h4>所有课程:{{ all_cours.name }}</h4>
-{% endfor %}
+
 {% if request.user.profile.job == 'staff' %}
+    <h3>所有课程：</h3>
+    {% for all_cours in all_courses %}
+        <h4>{{ all_cours.name }}</h4>
+    {% endfor %}
+    <h3>我的课程：</h3>
     {% for course in courses %}
-        {{ course.name }}
+        <h4>{{ course.name }}</h4>
         <a href="{% url 'course_edit' course.id %}">修改课程</a>
         <p>开始时间：{{ course.starttime }}</p>
         <p>结束时间：{{ course.endtime }}</p>
-        <strong><a href="{% url 'course_delete' course.id %}">删除课程</a></strong>
+        <p><a href="{% url 'course_delete' course.id %}">删除课程</a></p>
     {% endfor %}
     <h3><a href="{% url 'create_course' %}">添加课程</a></h3>
 {% else %}
+    <h3>所有课程：</h3>
+    {% for all_cours in all_courses %}
+        <h4><a href="{% url 'course_detail' all_cours.id %}">{{ all_cours.name }}</a></h4>
+        <h5>共有{{ all_cours.students.count }}个学生</h5>
+    {% endfor %}
+    <h3>我的课程：</h3>
     {% for course in courses %}
-        {{ course.name }}
-        <a href=".">报名</a>
-        <a href="{% url 'course_delete_stu' course.id %}">取消</a>
+        <h4><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></h4>
         <p>开始时间：{{ course.starttime }}</p>
         <p>结束时间：{{ course.endtime }}</p>
     {% endfor %}
