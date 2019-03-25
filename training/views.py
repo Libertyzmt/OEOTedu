@@ -17,12 +17,6 @@ def index(request):
     return render(request, 'training/index.html', {'posts': posts, 'depas': depas})
 
 
-# # 课程列表
-# def courses_list(request):
-#     courses = Course.objects.all()
-#     return render(request, 'training/courses_list.html', {'courses': courses})
-
-
 def course_failed(request):
     return render(request, 'training/course_failed.html')
 
@@ -120,7 +114,7 @@ def post_add(request):
             post_add = PostForm()  # 否则实例化对象
             return render(request, 'training/post/post_add.html', {'post_add': post_add})
     else:
-        return HttpResponseRedirect("不能进行增加！！！")
+        return HttpResponse("对不起你没有权限，请联系管理员")
 
 
 #
@@ -140,7 +134,7 @@ def post_update(request, id):
             form = PostForm(instance=post)  # 否则实例化对象
             return render(request, 'training/post/post_update.html', {'form': form})
     else:
-        return HttpResponseRedirect("非职工身份不能修改公告！")
+        return HttpResponse("非职工身份不能修改公告！")
 
 
 # 删除——艾鹏
@@ -154,7 +148,6 @@ def post_delete(request, id):
         return HttpResponse('当前登录用户没有权限，请切换用户或者联系管理员.')
 
 
-
 # 班级人员列表——艾鹏
 def profile_list(request, id):
     department = Department.objects.get(id=id)
@@ -162,14 +155,10 @@ def profile_list(request, id):
     return render(request, 'training/department/department_detail.html',
                   {'department': department, 'profiles': profiles})
 
-
 # 查看部门__斌
 def section_list(request):
     look = Department.objects.filter(name__contains="部")
     return render(request, 'training/department/look_section.html', {'look': look})
-
-
-
 
 
 # 部门下的人员__斌
@@ -282,13 +271,15 @@ def user_like(request):
         except:
             pass
     return JsonResponse({'status': 'ko'})
-#最新课程（可报名）--王凯杰
+
+
+# 最新课程（可报名）--王凯杰
 def new_course(request):
-    new_courses=Course.objects.all().order_by('starttime')
-    course_list=[]
+    new_courses = Course.objects.all().order_by('starttime')
+    course_list = []
     for course in new_courses:
-        c=course.students.count()
-        if c<course.most:
+        c = course.students.count()
+        if c < course.most:
             course_list.append(course)
 
-    return render(request,'training/new_courses.html',{'course_list':course_list})
+    return render(request, 'training/new_courses.html', {'course_list': course_list})
