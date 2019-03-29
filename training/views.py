@@ -86,7 +86,7 @@ def course_delete(request, id):
 
 
 def company(request):
-    company = Company.objects.all()
+    company = Company.objects.first()
     return render(request, 'training/company.html', {'company': company})
 
 
@@ -114,7 +114,7 @@ def post_add(request):
             post_add = PostForm()  # 否则实例化对象
             return render(request, 'training/post/post_add.html', {'post_add': post_add})
     else:
-        return HttpResponseRedirect("不能进行增加！！！")
+        return HttpResponse("对不起你没有权限，请联系管理员")
 
 
 #
@@ -134,7 +134,7 @@ def post_update(request, id):
             form = PostForm(instance=post)  # 否则实例化对象
             return render(request, 'training/post/post_update.html', {'form': form})
     else:
-        return HttpResponseRedirect("非职工身份不能修改公告！")
+        return HttpResponse("非职工身份不能修改公告！")
 
 
 # 删除——艾鹏
@@ -154,7 +154,6 @@ def profile_list(request, id):
     profiles = department.depart_emp.all()
     return render(request, 'training/department/department_detail.html',
                   {'department': department, 'profiles': profiles})
-
 
 # 查看部门__斌
 def section_list(request):
